@@ -166,4 +166,41 @@ public class ContactDAO {
 		}
 	}
 
+	public void deleteById(int id) {
+		String sql = "DELETE FROM contacts WHERE id = ?";
+		
+		Connection connection= null;
+		
+		PreparedStatement statement = null;
+		
+		try {
+			// Create connection to the database
+			connection = ConnectionFactory.createConnectionToMySql();
+			
+			// Create the class to execute the query
+			statement = connection.prepareStatement(sql);
+			
+			// What is the ID of the record you want to delete?
+			statement.setInt(1, id);
+			
+			// Execute the query
+			statement.execute();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (statement != null) {
+					statement.close();
+				}
+				
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
 }

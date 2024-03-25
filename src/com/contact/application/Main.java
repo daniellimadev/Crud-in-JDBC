@@ -12,11 +12,17 @@ public class Main {
 		ContactDAO contactDAO = new ContactDAO();
 		
 		Contact contact = new Contact();
-		contact.setName("Danilo");
+		contact.setName("Aline");
 		contact.setAge(38);
 		contact.setDateregister(new Date());
 		
 		contactDAO.save(contact);
+		
+		//View ALL database records
+		for (Contact contactAll : contactDAO.contactList()) {
+			System.out.println("Contact: " + contactAll.getName());
+		}
+		
 	}
 
 }

@@ -15,8 +15,8 @@ public class ContactDAO {
 	/*
 	 * CRUD
 	 * c: CREATE = INSERT - OK!
-	 * r: READ = SELECT -
-	 * u: UPDATE -
+	 * r: READ = SELECT - OK!
+	 * u: UPDATE - OK!
 	 * d: DELETE -
 	 */
 
@@ -123,4 +123,47 @@ public class ContactDAO {
 		
 		return contacts;
 	}
+
+	public void update(Contact contact) {
+		String sql = "UPDATE contacts SET name = ?, age = ?, dateregister = ? " +
+		"WHERE id = ?";
+		
+		Connection connection = null;
+		PreparedStatement statement = null;
+		
+		try {
+			// Create connection to the database
+			connection = ConnectionFactory.createConnectionToMySql();
+			
+			// Create the class to execute the query
+			statement = connection.prepareStatement(sql);
+			
+			// Add values to update
+			statement.setString(1, contact.getName());
+			statement.setInt(2, contact.getAge());
+			statement.setDate(3, new Date(contact.getDateregister().getTime()));
+			
+			// What is the ID of the record you want to update?
+			statement.setInt(4, contact.getId());
+			
+			// Execute the query
+			statement.execute();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (statement != null) {
+					statement.close();
+				}
+				
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 }
